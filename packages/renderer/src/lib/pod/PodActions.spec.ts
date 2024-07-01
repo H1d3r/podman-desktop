@@ -22,7 +22,8 @@ import type { ContainerInfo, Port } from '@podman-desktop/api';
 import { fireEvent, render, screen, waitFor } from '@testing-library/svelte';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
-import type { V1Route } from '../../../../main/src/plugin/api/openshift-types';
+import type { V1Route } from '/@api/openshift-types';
+
 import PodActions from './PodActions.svelte';
 import type { PodInfoUI } from './PodInfoUI';
 
@@ -48,7 +49,14 @@ const showMessageBoxMock = vi.fn();
 const kubernetesGetCurrentNamespaceMock = vi.fn();
 const kubernetesReadNamespacedPodMock = vi.fn();
 
+class ResizeObserver {
+  observe = vi.fn();
+  disconnect = vi.fn();
+  unobserve = vi.fn();
+}
+
 beforeEach(() => {
+  (window as any).ResizeObserver = ResizeObserver;
   (window as any).showMessageBox = showMessageBoxMock;
   (window as any).kubernetesDeletePod = vi.fn();
   (window as any).listContainers = listContainersMock;

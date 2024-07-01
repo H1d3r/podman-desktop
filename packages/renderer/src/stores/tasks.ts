@@ -19,7 +19,7 @@
 import type { Writable } from 'svelte/store';
 import { writable } from 'svelte/store';
 
-import type { NotificationTask, StatefulTask, Task } from '../../../main/src/plugin/api/task';
+import type { NotificationTask, StatefulTask, Task } from '/@api/task';
 
 /**
  * Defines the store used to define the tasks.
@@ -51,7 +51,11 @@ export function clearNotifications(): void {
 
 let taskId = 0;
 
-// create a new task
+/**
+ * create a new task
+ * @deprecated renderer should not create tasks
+ * @param name the name of the task
+ */
 export function createTask(name: string): StatefulTask {
   taskId++;
   const task: StatefulTask = {
